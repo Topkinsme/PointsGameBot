@@ -18,9 +18,7 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
    print("Ye boi is up!")
-   await bot.change_presence(activity=discord.Game(name="With Top!", type = 2))
-   a=bot.get_channel(533992960459538433)
-   await a.send("Ye boi is up!")
+   await bot.change_presence(activity=discord.Game(name="Type !signup to signup", type = 2))
 
 @bot.command()
 async def ping(ctx):
@@ -178,6 +176,14 @@ async def help(ctx):
     help.add_field(name="Help",value="Displays this message",inline="false")
     help.add_field(name="Ping",value="Returns pong",inline="false")
     help.add_field(name="Logout",value="Turns off the bot",inline="false")
+    help.add_field(name="Signup",value="Signs you up.",inline="false")
+    help.add_field(name="Start",value="Starts the game .Will only work if 5 people have signed up.",inline="false")
+    help.add_field(name="slist",value="Shows the people who have signed up.",inline="false")
+    help.add_field(name="nxtround",value="Starts the next round.",inline="false")
+    help.add_field(name="Points",value="Shows the points of every person.",inline="false")
+    help.add_field(name="How to play?",value="To start people need to type !signup to join.After 5 people have joined, type !start to start the game.After you typed that , each person will get a message mentioning your role",inline="false")
+    help.add_field(name="Roles",value="K -King - +10000 points. \nQ -Queen - +5000 points. \n M -Minister - +3000 points. \nP -Police - IF he finds the thief , +1000 points. \nT- Thief - +500 points if the police doesn't find you",inline="false")
+    help.add_field(name="How to end the game?",value="The game will end as soon as the police attempts to find the thief.Type !start or !nxtround to start the next round. Typing !end will end the whole game and post all the points.",inline="false")
     await ctx.send(embed=help)
 
 
