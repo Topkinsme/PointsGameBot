@@ -10,7 +10,7 @@ import json
 import os
 import random
 
-token="<your token here>"
+token="NTkzMDUyNjk1MDQwODg0NzM3.XRIRqw.6DV8ZSRRAo-u9f3dNYGr7ClMvJg"
 
 bot = commands.Bot(command_prefix="!")
 bot.remove_command('help')
@@ -44,6 +44,7 @@ async def signup(ctx):
     global GS
     global NOP
     global Points
+    global Roles
     global PR
     if GS == 0:
         if not ctx.author in Players:
@@ -53,21 +54,24 @@ async def signup(ctx):
          await ctx.send("Done!Signed up {} !".format(ctx.author.mention))
          NOP += 1
          print (NOP)
-         if NOP >4:
-             GS=1
+         if NOP >5:
+             Roles.append("M")
+             print(Roles)
         else:
-          await ctx.send("You have already signed-up!")
+            await ctx.send("You have already signed-up!")
     else:
         await ctx.send("A game is on-going.")
 
 @bot.command()
 async def start(ctx):
     global GS
-    if GS==0:
-        await ctx.send("More players are required.")
-    else:
+    global NOP
+    if NOP>4:
+        GS=1
         await draw()
         await ctx.send("Roles have been choosen , The Police Please proceed to find the thief.")
+    else:
+        await ctx.send("More players are required.")
 
 @bot.command()
 async def slist(ctx):
@@ -178,11 +182,11 @@ async def help(ctx):
     help.add_field(name="Ping",value="Returns pong",inline="false")
     help.add_field(name="Logout",value="Turns off the bot",inline="false")
     help.add_field(name="Signup",value="Signs you up.",inline="false")
-    help.add_field(name="Start",value="Starts the game .Will only work if 5 people have signed up.",inline="false")
+    help.add_field(name="Start",value="Starts the game .Will only work if more than 4 people have signed up.",inline="false")
     help.add_field(name="slist",value="Shows the people who have signed up.",inline="false")
     help.add_field(name="nxtround",value="Starts the next round.",inline="false")
     help.add_field(name="Points",value="Shows the points of every person.",inline="false")
-    help.add_field(name="How to play?",value="To start people need to type !signup to join.After 5 people have joined, type !start to start the game.After you typed that , each person will get a message mentioning your role",inline="false")
+    help.add_field(name="How to play?",value="To start people need to type !signup to join.After more than 4 people have joined, type !start to start the game.After you typed that , each person will get a message mentioning your role",inline="false")
     help.add_field(name="Roles",value="K -King - +10000 points. \nQ -Queen - +5000 points. \n M -Minister - +3000 points. \nP -Police - IF he finds the thief , +1000 points. \nT- Thief - +500 points if the police doesn't find you",inline="false")
     help.add_field(name="How to end the game?",value="The game will end as soon as the police attempts to find the thief.Type !start or !nxtround to start the next round. Typing !end will end the whole game and post all the points.",inline="false")
     await ctx.send(embed=help)
