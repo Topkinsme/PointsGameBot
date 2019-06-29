@@ -46,14 +46,17 @@ async def signup(ctx):
     global Points
     global PR
     if GS == 0:
-        Players.append(ctx.author)
-        Points[ctx.author]=0
-        PR[ctx.author]=""
-        await ctx.send("Done!Signed up {} !".format(ctx.author.mention))
-        NOP += 1
-        print (NOP)
-        if NOP >4:
-            GS=1
+        if not ctx.author in Players:
+         Players.append(ctx.author)
+         Points[ctx.author]=0
+         PR[ctx.author]=""
+         await ctx.send("Done!Signed up {} !".format(ctx.author.mention))
+         NOP += 1
+         print (NOP)
+         if NOP >4:
+             GS=1
+        else:
+          await ctx.send("You have already signed-up!")
     else:
         await ctx.send("A game is on-going.")
 
@@ -112,8 +115,7 @@ async def nxtround(ctx):
 async def points(ctx):
     global Points
     for i in Points:
-        await ctx.send(i.mention)
-        await ctx.send(Points[i])
+        await ctx.send("{} ,Your points are , {}".format(i.mention,Points[i]))
 
 @bot.command()
 async def end(ctx):
@@ -127,8 +129,7 @@ async def end(ctx):
     global Thief
     global Police
     for i in Points:
-        await ctx.send(i.mention)
-        await ctx.send(Points[i])
+        await ctx.send("{} ,Your points are , {}".format(i.mention,Points[i]))
     Players=[]
     Roles=["K","Q","M","P","T"]
     PR={}
