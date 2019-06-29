@@ -10,7 +10,7 @@ import json
 import os
 import random
 
-token="NTkzMDUyNjk1MDQwODg0NzM3.XRIRqw.6DV8ZSRRAo-u9f3dNYGr7ClMvJg"
+token="<your token here>"
 
 bot = commands.Bot(command_prefix="!")
 bot.remove_command('help')
