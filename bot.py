@@ -30,6 +30,7 @@ async def logout(ctx):
 
 Players=[]
 Roles=["K","Q","M","P","T"]
+RRoles=[]
 PR={}
 GS =0
 NOP=0
@@ -66,8 +67,11 @@ async def signup(ctx):
 async def start(ctx):
     global GS
     global NOP
+    global Roles
+    global RRoles
     if NOP>4:
         GS=1
+        RRoles= Roles
         await draw()
         await ctx.send("Roles have been choosen , The Police Please proceed to find the thief.")
     else:
@@ -86,6 +90,7 @@ async def s(ctx,it:discord.Member):
     global Roles
     global PR
     global Points
+    global RRoles
     if GS==1:
         if ctx.author==Police:
             if it==Thief:
@@ -93,7 +98,7 @@ async def s(ctx,it:discord.Member):
                 Points[ctx.author]+=1000
                 Police=""
                 Thief=""
-                Roles=["K","Q","M","P","T"]
+                Roles=RRoles
                 PR={}
             else:
                 await ctx.send("The thief escaped.")
@@ -101,7 +106,7 @@ async def s(ctx,it:discord.Member):
                 print(Points[Thief])
                 Police=""
                 Thief=""
-                Roles=["K","Q","M","P","T"]
+                Roles=RRoles
                 PR={}
         else:
             await ctx.send("You are not the police.")
@@ -132,6 +137,7 @@ async def end(ctx):
     global Points
     global Thief
     global Police
+    global RRoles
     for i in Points:
         await ctx.send("{} ,Your points are , {}".format(i.mention,Points[i]))
     Players=[]
@@ -143,6 +149,7 @@ async def end(ctx):
     Points={}
     Thief=""
     Police=""
+    RRoles=[]
 
 async def draw():
     global Roles
