@@ -10,7 +10,7 @@ import json
 import os
 import random
 
-token="<your token here>"
+token="<Enter Bot Token here>"
 
 bot = commands.Bot(command_prefix="!")
 bot.remove_command('help')
@@ -30,7 +30,7 @@ async def logout(ctx):
 
 Players=[]
 Roles=["K","Q","M","P","T"]
-RRoles=[]
+TRoles=[]
 PR={}
 GS =0
 NOP=0
@@ -48,7 +48,7 @@ async def signup(ctx):
     global Roles
     global PR
     if GS == 0:
-        if not ctx.author in Players:
+        #if not ctx.author in Players:
          Players.append(ctx.author)
          Points[ctx.author]=0
          PR[ctx.author]=""
@@ -58,8 +58,8 @@ async def signup(ctx):
          if NOP >5:
              Roles.append("M")
              print(Roles)
-        else:
-            await ctx.send("You have already signed-up!")
+        #else:
+            #await ctx.send("You have already signed-up!")
     else:
         await ctx.send("A game is on-going.")
 
@@ -67,11 +67,11 @@ async def signup(ctx):
 async def start(ctx):
     global GS
     global NOP
+    global TRoles
     global Roles
-    global RRoles
+    TRoles=Roles[:]
     if NOP>4:
         GS=1
-        RRoles= Roles
         await draw()
         await ctx.send("Roles have been choosen , The Police Please proceed to find the thief.")
     else:
@@ -88,9 +88,9 @@ async def s(ctx,it:discord.Member):
     global Thief
     global Police
     global Roles
+    global TRoles
     global PR
     global Points
-    global RRoles
     if GS==1:
         if ctx.author==Police:
             if it==Thief:
@@ -98,7 +98,7 @@ async def s(ctx,it:discord.Member):
                 Points[ctx.author]+=1000
                 Police=""
                 Thief=""
-                Roles=RRoles
+                Roles=TRoles[:]
                 PR={}
             else:
                 await ctx.send("The thief escaped.")
@@ -106,7 +106,7 @@ async def s(ctx,it:discord.Member):
                 print(Points[Thief])
                 Police=""
                 Thief=""
-                Roles=RRoles
+                Roles=Troles[:]
                 PR={}
         else:
             await ctx.send("You are not the police.")
@@ -137,11 +137,12 @@ async def end(ctx):
     global Points
     global Thief
     global Police
-    global RRoles
+    global TRoles
     for i in Points:
         await ctx.send("{} ,Your points are , {}".format(i.mention,Points[i]))
     Players=[]
     Roles=["K","Q","M","P","T"]
+    TRoles=[]
     PR={}
     GS =0
     NOP=0
@@ -149,7 +150,6 @@ async def end(ctx):
     Points={}
     Thief=""
     Police=""
-    RRoles=[]
 
 async def draw():
     global Roles
@@ -158,6 +158,7 @@ async def draw():
     global Police
     global Thief
     global Round
+    global TRoles
     for i in Players:
         a= random.choice(Roles)
         Roles.remove(a)
@@ -179,7 +180,8 @@ async def draw():
         elif a=="T":
             Thief = i
     Round+=1
-    print(round)
+    Roles=[]
+    print(Round)
 
 @bot.command()
 async def help(ctx):
@@ -197,6 +199,7 @@ async def help(ctx):
     help.add_field(name="Roles",value="K -King - +10000 points. \nQ -Queen - +5000 points. \n M -Minister - +3000 points. \nP -Police - IF he finds the thief , +1000 points. \nT- Thief - +500 points if the police doesn't find you",inline="false")
     help.add_field(name="How to end the game?",value="The game will end as soon as the police attempts to find the thief.Type !start or !nxtround to start the next round. Typing !end will end the whole game and post all the points.",inline="false")
     await ctx.send(embed=help)
+
 
 
 bot.run(token)
