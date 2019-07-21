@@ -48,7 +48,7 @@ async def signup(ctx):
     global Roles
     global PR
     if GS == 0:
-        #if not ctx.author in Players:
+        if not ctx.author in Players:
          Players.append(ctx.author)
          Points[ctx.author]=0
          PR[ctx.author]=""
@@ -58,8 +58,8 @@ async def signup(ctx):
          if NOP >5:
              Roles.append("M")
              print(Roles)
-        #else:
-            #await ctx.send("You have already signed-up!")
+        else:
+            await ctx.send("You have already signed-up!")
     else:
         await ctx.send("A game is on-going.")
 
